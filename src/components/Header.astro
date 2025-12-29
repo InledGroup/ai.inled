@@ -1,0 +1,219 @@
+---
+---
+
+<header id="main-header" class="fixed w-full top-0 z-50 transition-all duration-300 py-6 px-8 flex justify-between items-center">
+    <div class="flex items-center gap-2 relative z-50">
+        <img src="https://hosted.inled.es/inledai.svg" alt="inled ai" class="h-8 w-auto" />
+    </div>
+
+    <!-- Desktop Nav -->
+    <nav class="hidden md:flex gap-8 items-center">
+        <a href="https://aicloud.inled.es" class="text-sm font-medium hover:text-accent transition-colors">AiCloud</a>
+        <a href="https://edge.inled.es" class="text-sm font-medium hover:text-accent transition-colors">Edge.AI</a>
+        <a href="https://insuite.inled.es" class="text-sm font-medium hover:text-accent transition-colors">Insuite AI</a>
+        
+        <!-- Custom Language Switch -->
+        <div class="language-switch flex items-center gap-2 text-sm font-medium">
+            <button data-lang="es" class="lang-btn hover:text-accent transition-colors">ES</button>
+            <span class="text-gray-300">|</span>
+            <button data-lang="en" class="lang-btn hover:text-accent transition-colors">EN</button>
+        </div>
+        
+        <!-- Hidden Google Translate Element -->
+        <div id="google_translate_element" class="hidden-translate"></div>
+    </nav>
+
+    <!-- Mobile Menu Button -->
+    <div class="md:hidden relative z-50">
+        <button id="menu-toggle" class="text-gray-800 focus:outline-none">
+            <svg id="menu-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 transition-opacity duration-300">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+            </svg>
+            <svg id="close-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 absolute top-0 left-0 opacity-0 transition-opacity duration-300">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+        </button>
+    </div>
+
+    <!-- Mobile Menu Overlay -->
+    <div id="mobile-menu" class="fixed inset-0 z-40 bg-[var(--color-cream)] h-screen w-screen transform -translate-x-full transition-transform duration-500 ease-in-out md:hidden flex flex-col justify-center items-center gap-8">
+        <a href="https://aicloud.inled.es" class="mobile-link text-2xl font-serif font-medium hover:text-accent transition-colors opacity-0 translate-y-4">AiCloud</a>
+        <a href="https://edge.inled.es" class="mobile-link text-2xl font-serif font-medium hover:text-accent transition-colors opacity-0 translate-y-4">Edge.AI</a>
+        <a href="https://insuite.inled.es" class="mobile-link text-2xl font-serif font-medium hover:text-accent transition-colors opacity-0 translate-y-4">Insuite AI</a>
+        
+        <!-- Mobile Language Switch -->
+        <div class="mobile-link opacity-0 translate-y-4 flex items-center gap-4 text-2xl font-serif font-medium">
+            <button data-lang="es" class="lang-btn hover:text-accent transition-colors">ES</button>
+            <span class="text-gray-300">|</span>
+            <button data-lang="en" class="lang-btn hover:text-accent transition-colors">EN</button>
+        </div>
+    </div>
+</header>
+
+<style>
+    /* Cascading animation classes */
+    .mobile-menu-open .mobile-link {
+        opacity: 1;
+        transform: translateY(0);
+        transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+    }
+
+    /* Stagger delays */
+    .mobile-menu-open .mobile-link:nth-child(1) { transition-delay: 0.1s; }
+    .mobile-menu-open .mobile-link:nth-child(2) { transition-delay: 0.2s; }
+    .mobile-menu-open .mobile-link:nth-child(3) { transition-delay: 0.3s; }
+    .mobile-menu-open .mobile-link:nth-child(4) { transition-delay: 0.4s; }
+
+    /* Hide Google Translate completely but keep it in DOM */
+    .hidden-translate {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 0;
+        width: 0;
+        overflow: hidden;
+        opacity: 0;
+        pointer-events: none;
+    }
+
+    /* Active Language State */
+    .lang-btn.active {
+        color: var(--color-accent);
+        font-weight: 700;
+    }
+
+    /* Hide top banner */
+    :global(.goog-te-banner-frame.skiptranslate) {
+        display: none !important;
+    }
+    :global(body) {
+        top: 0 !important;
+    }
+</style>
+
+<script is:inline>
+    // Google Translate Init
+    function googleTranslateElementInit() {
+        new google.translate.TranslateElement({
+            pageLanguage: 'es',
+            includedLanguages: 'es,en',
+            autoDisplay: false
+        }, 'google_translate_element');
+    }
+</script>
+
+<script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit" async></script>
+
+<script>
+    const header = document.getElementById('main-header');
+    const menuToggle = document.getElementById('menu-toggle');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const menuIcon = document.getElementById('menu-icon');
+    const closeIcon = document.getElementById('close-icon');
+
+    // Scroll effect
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 50) {
+            header?.classList.add('bg-white/80', 'backdrop-blur-md', 'shadow-sm', 'py-4');
+            header?.classList.remove('py-6');
+        } else {
+            header?.classList.remove('bg-white/80', 'backdrop-blur-md', 'shadow-sm', 'py-4');
+            header?.classList.add('py-6');
+        }
+    });
+
+    // Mobile Menu Toggle
+    menuToggle?.addEventListener('click', () => {
+        const isOpen = !mobileMenu?.classList.contains('-translate-x-full');
+        
+        if (isOpen) {
+            // Close
+            mobileMenu?.classList.add('-translate-x-full');
+            mobileMenu?.classList.remove('mobile-menu-open');
+            menuIcon?.classList.remove('opacity-0');
+            closeIcon?.classList.add('opacity-0');
+            document.body.style.overflow = '';
+        } else {
+            // Open
+            mobileMenu?.classList.remove('-translate-x-full');
+            mobileMenu?.classList.add('mobile-menu-open');
+            menuIcon?.classList.add('opacity-0');
+            closeIcon?.classList.remove('opacity-0');
+            document.body.style.overflow = 'hidden'; // Prevent scrolling when menu is open
+        }
+    });
+
+    // Language Switcher Logic
+    function initLanguageSwitcher() {
+        const btns = document.querySelectorAll('.lang-btn');
+        
+        // Helper to get current language from Google Cookie
+        function getMessageCookie() {
+            const value = "; " + document.cookie;
+            const parts = value.split("; googtrans=");
+            if (parts.length == 2) return parts.pop().split(";").shift();
+            return null;
+        }
+
+        function updateActiveState(lang) {
+            btns.forEach(btn => {
+                if(btn.dataset.lang === lang) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+        }
+
+        // Initialize state
+        const cookieVal = getMessageCookie();
+        // cookie format is usually /from/to or just /to
+        // if null, default is 'es'
+        let currentLang = 'es';
+        if (cookieVal) {
+            if (cookieVal.includes('/en')) currentLang = 'en';
+            else if (cookieVal.includes('/es')) currentLang = 'es';
+        }
+        updateActiveState(currentLang);
+
+
+        btns.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const targetLang = e.target.dataset.lang;
+                const combo = document.querySelector('.goog-te-combo');
+                
+                if (combo) {
+                    if (targetLang === 'es') {
+                        // To revert to original, usually clearing works best or selecting the first option
+                        // But setting value to 'es' if page is 'es' might not trigger change if it's already 'es' in the combo?
+                        // Actually, 'google translate' treats 'es' as a target language. 
+                        // If the page is ES, we want to TURN OFF translation.
+                        // Standard trick: set select to empty string or dispatch event.
+                        combo.value = ''; 
+                        // If that doesn't work, we force it to 'es' if it's an option.
+                    } else {
+                        combo.value = targetLang;
+                    }
+                    
+                    // Dispatch change event
+                    combo.dispatchEvent(new Event('change'));
+                    
+                    updateActiveState(targetLang);
+                }
+            });
+        });
+    }
+
+    // Initialize switcher once DOM is ready or after a short delay to ensure Google Element loaded
+    // Using a polling approach to wait for the combo box
+    const checkGoogleInterval = setInterval(() => {
+        if (document.querySelector('.goog-te-combo')) {
+            clearInterval(checkGoogleInterval);
+            initLanguageSwitcher();
+        }
+    }, 500);
+    
+    // Fallback if google translate fails or is blocked
+    setTimeout(() => clearInterval(checkGoogleInterval), 10000);
+
+</script>

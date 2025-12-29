@@ -1,0 +1,41 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Hero from '../components/Hero.astro';
+import Section from '../components/Section.astro';
+import CardGrid from '../components/CardGrid.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<Layout title="Inled AI - Inteligencia Cercana">
+	<Header />
+	
+	<main>
+		<Hero />
+		
+		<Section 
+			
+			title="AiCloud"
+			subtitle="Crea chatbots de IA para tu sitio web 100% gratuitos, ilimitados y que se basan en PDFs y texto. Cumplen con el RGPD"
+			image="https://hosted.inled.es/aicloud.png"
+			imageAlt="Ai Cloud"
+			ctaText="Accede a la beta"
+			ctaLink="https://aicloud.inled.es"
+		/>
+
+		<Section 
+			title="Edge.AI"
+			subtitle="ChatGPT + NotebookLM + Perplexity pero privados, de ejecución en navegador e ilimitados."
+			image="https://hosted.inled.es/edgeai.png"
+			imageAlt="Análisis de Datos"
+			reverse={true}
+			ctaText="Probar"
+			ctaLink="https://edge.inled.es"
+		/>
+
+		<CardGrid />
+		
+	</main>
+
+	<Footer />
+</Layout>

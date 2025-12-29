@@ -1,0 +1,40 @@
+---
+const features = [
+    {
+        title: "Ejecución en navegador",
+        description: "Gracias a tecnologías como WebGPU o WASM, usamos la capacidad de computación de tu ordenador a través del navegador.",
+        icon: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M8.625 12a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H8.25m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H12m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0h-.375M21 12c0 4.556-4.03 8.25-9 8.25a9.764 9.764 0 01-2.555-.337A5.972 5.972 0 015.41 20.97a5.969 5.969 0 01-.474-.065 4.48 4.48 0 00.978-2.025c.09-.457-.133-.901-.467-1.226C3.93 16.178 3 14.159 3 12c0-4.556 4.03-8.25 9-8.25s9 3.694 9 8.25z" /></svg>`
+    },
+    {
+        title: "Compatibilidad",
+        description: "Inled AI funciona en ordenadores con o sin GPU gracias al esfuerzo en desarrollar una compatibilidad factible y funcional.",
+        icon: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" /></svg>`
+    },
+    {
+        title: "Privacidad",
+        description: "Ya no solo es cumplir con el RGPD, es que todo queda en tu ordenador y no sale a nuestros servidores cuando conversas con Inled AI..",
+        icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6" fill="none"  stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-hat-glasses-icon lucide-hat-glasses"><path d="M14 18a2 2 0 0 0-4 0"/><path d="m19 11-2.11-6.657a2 2 0 0 0-2.752-1.148l-1.276.61A2 2 0 0 1 12 4H8.5a2 2 0 0 0-1.925 1.456L5 11"/><path d="M2 11h20"/><circle cx="17" cy="18" r="3"/><circle cx="7" cy="18" r="3"/></svg>`
+    }
+];
+---
+
+<section class="py-20 px-6 bg-white/50">
+    <div class="max-w-6xl mx-auto">
+        <div class="text-center mb-16 reveal-on-scroll opacity-0 translate-y-8 transition-all duration-1000 ease-out">
+            <h2 class="font-serif text-4xl text-gray-800 mb-4">Innovación en IA</h2>
+            <p class="text-gray-600 max-w-2xl mx-auto">Diseñada pensando en tu privacidad, gratuita e ilimitada.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {features.map((feature, index) => (
+                <div class={`p-8 bg-white rounded-2xl shadow-lg shadow-gray-100 hover:shadow-xl hover:shadow-accent/10 transition-all duration-300 border border-gray-50 reveal-on-scroll opacity-0 translate-y-8 ease-out`} style={`transition-delay: ${index * 150}ms; transition-duration: 1000ms;`}>
+                    <div class="w-12 h-12 bg-accent/10 text-accent rounded-xl flex items-center justify-center mb-6">
+                        <Fragment set:html={feature.icon} />
+                    </div>
+                    <h3 class="font-serif text-2xl text-gray-800 mb-3">{feature.title}</h3>
+                    <p class="text-gray-600 leading-relaxed font-light">{feature.description}</p>
+                </div>
+            ))}
+        </div>
+    </div>
+</section>
